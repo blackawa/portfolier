@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="icon" type="image" href="favicon.png" />
+    <title>portfolier</title>
+</head>
+<body>
+<form action="/login" method="POST">
+    <p>if you have an user account, Sign in</p>
+    <p><label for="login-email">e-mail</label><input type="email" id="login-email" name="email" /></p>
+    <p><label for="login-password">password</label><input type="password" id="login-password" name="password" /></p>
+    <button type="submit">SUBMIT</button>
+</form>
+<hr />
+<form action="/register" method="POST">
+    <p>Otherwise, you can register now.</p>
+    <p><label for="name">name</label><input type="text" id="name" name="name" /></p>
+    <p><label for="email">e-mail</label><input type="email" id="email" name="email" /></p>
+    <p><label for="password">password</label><input type="password" id="password" name="password" /></p>
+    <button type="submit">SUBMIT</button>
+</form>
+</body>
+</html>
