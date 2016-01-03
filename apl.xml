@@ -10,6 +10,12 @@
             <outputDirectory>/lib</outputDirectory>
         </dependencySet>
     </dependencySets>
+    <fileSets>
+        <fileSet>
+            <directory>assets</directory>
+            <outputDirectory>/assets</outputDirectory>
+        </fileSet>
+    </fileSets>
     <files>
         <file>
             <source>target/portfolier.jar</source>

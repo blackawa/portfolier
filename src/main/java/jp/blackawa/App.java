@@ -1,5 +1,12 @@
 package jp.blackawa;
 
+import spark.ModelAndView;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static spark.Spark.externalStaticFileLocation;
 import static spark.Spark.get;
 import static spark.Spark.staticFileLocation;
 
@@ -8,7 +15,12 @@ import static spark.Spark.staticFileLocation;
  */
 public class App {
     public static void main(String[] args) {
-        staticFileLocation("src/main/webapp/public");
-        get("/", (req, res) -> "connected!");
+        // Define asset directory
+        externalStaticFileLocation("assets");
+
+        // index page
+        get("/", (req, res) -> {
+            return new ModelAndView(new HashMap<>(), "index");
+        }, new ThymeleafTemplateEngine());
     }
 }
