@@ -14,3 +14,6 @@ java -jar target/tmp/portfolier.jar
 
 - SHA256 encoding
 - load application configurations from .config file
+- Change Database
+- Implement input validation
+

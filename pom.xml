@@ -79,6 +79,8 @@
           <descriptors>
             <descriptor>./apl.xml</descriptor>
           </descriptors>
+        </configuration>
+        <executions>
           <execution>
             <id>apl</id>
             <phase>package</phase>
@@ -86,7 +88,7 @@
               <goal>single</goal>
             </goals>
           </execution>
-        </configuration>
+        </executions>
       </plugin>
       <!-- 開発時、exec:javaで起動できる -->
       <plugin>
