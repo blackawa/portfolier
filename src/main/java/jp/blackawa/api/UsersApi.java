@@ -15,7 +15,7 @@ import static spark.Spark.*;
  */
 public class UsersApi {
     public static void apis() {
-        before("/users", (req, res) -> {
+        before("/users/*", (req, res) -> {
             if (null == req.session().attribute("userId")) {
                 halt(403, "you need authentication first.");
             }
