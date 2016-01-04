@@ -1,12 +1,9 @@
 package jp.blackawa.api;
 
-import com.iciql.Db;
 import jp.blackawa.model.User;
 import jp.blackawa.services.UsersService;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
-
-import java.util.List;
 
 import static spark.Spark.*;
 
@@ -22,22 +19,14 @@ public class UsersApi {
         });
 
         get("/users", (req, res) -> {
-            List<User> usersForUsers;
-            try (Db db = Db.open("jdbc:h2:file:./target/iciql", "sa", "sa")) {
-                usersForUsers = db.from(new User()).select();
-                db.close();
-            }
             res.type("application/json");
-            return JSON.encode(usersForUsers);
+            return JSON.encode(UsersService.findAll());
         });
 
         get("/users/:id", (req, res) -> {
             Long id = Long.valueOf(req.params(":id"));
-            User userForUsers = new User();
-            try (Db db = Db.open("jdbc:h2:file:./target/iciql", "sa", "sa")) {
-                userForUsers = db.from(userForUsers).where(userForUsers.id).is(id).selectFirst();
-            }
-            return JSON.encode(userForUsers);
+            res.type("application/json");
+            return JSON.encode(UsersService.findById(id));
         });
 
         post("/users", (req, res) -> {
