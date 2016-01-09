@@ -10,26 +10,26 @@ import static spark.Spark.*;
 /**
  * Provide JSON API interface
  */
-public class UsersApi {
+public class UserApi {
     public static void routes() {
-        before("/users/*", (req, res) -> {
+        before("/user/*", (req, res) -> {
             if (null == req.session().attribute("userId")) {
                 halt(403, "you need authentication first.");
             }
         });
 
-        get("/users", (req, res) -> {
+        get("/user", (req, res) -> {
             res.type("application/json");
             return JSON.encode(UsersService.findAll());
         });
 
-        get("/users/:id", (req, res) -> {
+        get("/user/:id", (req, res) -> {
             Long id = Long.valueOf(req.params(":id"));
             res.type("application/json");
             return JSON.encode(UsersService.findById(id));
         });
 
-        post("/users", (req, res) -> {
+        post("/user", (req, res) -> {
             User user = new User();
             try {
                 user = JSON.decode(req.body(), User.class);
