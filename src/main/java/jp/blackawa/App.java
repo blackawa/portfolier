@@ -2,7 +2,7 @@ package jp.blackawa;
 
 import jp.blackawa.api.LoginApi;
 import jp.blackawa.api.RegisterApi;
-import jp.blackawa.api.UsersApi;
+import jp.blackawa.api.UserApi;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
@@ -19,7 +19,9 @@ public class App {
         // Define asset directory
         externalStaticFileLocation("assets");
 
-        // index page
+        // Define Database Configurations
+
+        // Define routing: /
         get("/", (req, res) -> {
             return new ModelAndView(new HashMap<>(), "index");
         }, new ThymeleafTemplateEngine());
@@ -30,7 +32,7 @@ public class App {
         // Define routing: /login
         LoginApi.routes();
 
-        // Define routing: /users
-        UsersApi.routes();
+        // Define routing: /user
+        UserApi.routes();
     }
 }
