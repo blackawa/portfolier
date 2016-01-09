@@ -11,7 +11,7 @@ import static spark.Spark.*;
  * Provide JSON API interface
  */
 public class UsersApi {
-    public static void apis() {
+    public static void routes() {
         before("/users/*", (req, res) -> {
             if (null == req.session().attribute("userId")) {
                 halt(403, "you need authentication first.");
