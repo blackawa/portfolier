@@ -3,6 +3,8 @@ package jp.blackawa.model;
 import com.iciql.Iciql.IQColumn;
 import com.iciql.Iciql.IQTable;
 
+import java.util.UUID;
+
 @IQTable(name = "users")
 public class User {
 
@@ -21,8 +23,8 @@ public class User {
         return (!name.isEmpty()) && (!email.isEmpty()) && (!password.isEmpty());
     }
 
-    @IQColumn(name = "id", primaryKey = true, autoIncrement = true)
-    public Long id;
+    @IQColumn(name = "id", length = 40, primaryKey = true)
+    public UUID id;
 
     @IQColumn(name = "name", length = 60, trim = true)
     public String name;

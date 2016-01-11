@@ -1,9 +1,9 @@
 package jp.blackawa.services;
-
 import com.iciql.Db;
 import jp.blackawa.model.User;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Provide Access to USERS Table
@@ -14,15 +14,17 @@ public class UsersService {
         return Db.open("jdbc:h2:file:./target/iciql", "sa", "sa");
     }
 
-    public static boolean insert(User user) {
-        boolean result;
+    public static UUID insert(User user) {
+        user.id = UUID.randomUUID();
         try (Db db = openDatabase()) {
+            boolean result;
             result = db.insert(user);
+            if (!result) throw new RuntimeException("Error occurred! Failed to insert USERS record");
         }
-        return result;
+        return user.id;
     }
 
-    public static User findById(Long id) {
+    public static User findById(UUID id) {
         try (Db db = openDatabase()) {
             User user = new User();
             return db.from(user).where(user.id).is(id).selectFirst();

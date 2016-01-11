@@ -5,6 +5,8 @@ import jp.blackawa.services.UsersService;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
 
+import java.util.UUID;
+
 import static spark.Spark.*;
 
 /**
@@ -24,24 +26,24 @@ public class UserApi {
         });
 
         get("/user/:id", (req, res) -> {
-            Long id = Long.valueOf(req.params(":id"));
+            UUID id = UUID.fromString(req.params(":id"));
             res.type("application/json");
             return JSON.encode(UsersService.findById(id));
         });
 
         post("/user", (req, res) -> {
             User user = new User();
+            UUID createdUserId;
             try {
                 user = JSON.decode(req.body(), User.class);
                 System.out.println("name: " + user.name + " email: " + user.email + " password: " + user.password);
-                boolean isCreated = UsersService.insert(user);
-                if (!isCreated) halt(400, "Database error occurred... sorry");
+                createdUserId = UsersService.insert(user);
             } catch (JSONException e) {
                 res.status(400);
                 return "illegal format";
             }
             res.status(201);
-            return user.id;
+            return createdUserId.toString();
         });
     }
 }
