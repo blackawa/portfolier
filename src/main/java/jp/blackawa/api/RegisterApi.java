@@ -5,6 +5,10 @@ import jp.blackawa.services.UsersService;
 
 import static spark.Spark.post;
 
+/**
+ * Request Mapping for "/register"
+ * @author blackawa
+ */
 public class RegisterApi {
     public static void routes() {
         post("/register", (req, res) -> {
