@@ -1,28 +1,28 @@
 package jp.blackawa.model;
 
-import com.iciql.Iciql.IQColumn;
-import com.iciql.Iciql.IQTable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
 
-@IQTable(name = "stems")
+@Entity
+@Table(name = "STEM")
+@Data
+@NoArgsConstructor
 public class Stem {
-    @IQColumn(name = "id", primaryKey = true)
-    public UUID id;
+    @Id
+    private UUID id;
 
-    @IQColumn(name = "name")
-    public String name;
-
-    @IQColumn(name = "create_user_id")
-    public UUID createUserId;
-
-    @IQColumn(name = "created_time")
-    public Date createdTime;
-
-    @IQColumn(name = "update_user_id")
-    public UUID updateUserId;
-
-    @IQColumn(name = "updated_time")
-    public Date updatedTime;
+    private String name;
+    @Column(name = "CREATE_USER_ID")
+    private UUID createUserId;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATED_TIME")
+    private Date createdTime;
+    @Column(name = "UPDATE_USER_ID")
+    private UUID updateUserId;
+    @Column(name = "UPDATE_TIME")
+    private Date updatedTime;
 }

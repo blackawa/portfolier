@@ -1,7 +1,9 @@
 package jp.blackawa.services;
-import com.iciql.Db;
+
 import jp.blackawa.model.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,38 +12,28 @@ import java.util.UUID;
  */
 public class UsersService {
 
-    public static Db openDatabase() {
-        return Db.open("jdbc:h2:file:./target/iciql", "sa", "sa");
+    public static UUID insert(EntityManagerFactory entityManagerFactory, User user) {
+        user.setId(UUID.randomUUID());
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(user);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return user.getId();
     }
 
-    public static UUID insert(User user) {
-        user.id = UUID.randomUUID();
-        try (Db db = openDatabase()) {
-            boolean result;
-            result = db.insert(user);
-            if (!result) throw new RuntimeException("Error occurred! Failed to insert USERS record");
-        }
-        return user.id;
+    public static User findById(EntityManagerFactory entityManagerFactory, UUID id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        return entityManager.createQuery("from User where id = ?", User.class).setParameter(1, id).getSingleResult();
     }
 
-    public static User findById(UUID id) {
-        try (Db db = openDatabase()) {
-            User user = new User();
-            return db.from(user).where(user.id).is(id).selectFirst();
-        }
+    public static User findByEmail(EntityManagerFactory entityManagerFactory, String email) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        return entityManager.createQuery("from User where email = ?", User.class).setParameter(1, email).getSingleResult();
     }
 
-    public static User findByEmail(String email) {
-        User user = new User();
-        try (Db db = openDatabase()) {
-            user = db.from(user).where(user.email).is(email).selectFirst();
-        }
-        return user;
-    }
-
-    public static List<User> findAll() {
-        try (Db db = openDatabase()) {
-            return db.from(new User()).select();
-        }
+    public static List<User> findAll(EntityManagerFactory entityManagerFactory) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        return entityManager.createQuery("from User", User.class).getResultList();
     }
 }

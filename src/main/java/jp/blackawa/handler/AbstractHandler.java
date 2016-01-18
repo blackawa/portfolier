@@ -1,12 +1,13 @@
 package jp.blackawa.handler;
 
-import com.iciql.Db;
 import spark.Route;
 
-public abstract class AbstractHandler implements Route {
-    protected Db iciqlDb;
+import javax.persistence.EntityManagerFactory;
 
-    public AbstractHandler(Db iciqlDb) {
-        this.iciqlDb = iciqlDb;
+public abstract class AbstractHandler implements Route {
+    protected EntityManagerFactory entityManagerFactory;
+
+    public AbstractHandler(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
     }
 }

@@ -1,37 +1,34 @@
 package jp.blackawa.model;
 
-import com.iciql.Iciql.IQColumn;
-import com.iciql.Iciql.IQTable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
-@IQTable(name = "users")
+@Entity
+@Table(name = "USER")
+@Data
+@NoArgsConstructor
 public class User {
 
-    public User () {
-        super();
-    }
-
-    public User (String name, String email, String password) {
-        super();
+    public User (UUID id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
+    @Id
+    private UUID id;
+
+    private String name;
+    private String email;
+    private String password;
+
     public boolean isValid() {
         return (!name.isEmpty()) && (!email.isEmpty()) && (!password.isEmpty());
     }
-
-    @IQColumn(name = "id", length = 40, primaryKey = true)
-    public UUID id;
-
-    @IQColumn(name = "name", length = 60, trim = true)
-    public String name;
-
-    @IQColumn(name = "email", length = 60, trim = true)
-    public String email;
-
-    @IQColumn(name = "password", length = 100, trim = true)
-    public String password;
 }

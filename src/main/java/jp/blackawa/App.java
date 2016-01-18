@@ -1,17 +1,16 @@
 package jp.blackawa;
 
-import com.iciql.Db;
 import jp.blackawa.api.LoginApi;
 import jp.blackawa.api.UserApi;
 import jp.blackawa.handler.PostRegisterHandler;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.HashMap;
 
-import static spark.Spark.externalStaticFileLocation;
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 /**
  * Awake Application
@@ -21,8 +20,8 @@ public class App {
         // Define asset directory
         externalStaticFileLocation("assets");
 
-        // Define Database Configurations
-        Db iciqlDb = Db.open("jdbc:h2:file:./target/iciql", "sa", "sa");
+        // Hibernateが使うDBアクセスのインターフェース
+        EntityManagerFactory em = Persistence.createEntityManagerFactory("jp.blackawa.portfolier");
 
         // Define routing: /
         get("/", (req, res) -> {
@@ -30,12 +29,15 @@ public class App {
         }, new ThymeleafTemplateEngine());
 
         // Define routing: /register
-        post("/register", new PostRegisterHandler(iciqlDb));
+        post("/register", new PostRegisterHandler(em));
 
         // Define routing: /login
-        LoginApi.routes();
+        LoginApi.routes(em);
 
         // Define routing: /user
-        UserApi.routes();
+        UserApi.routes(em);
+
+        // 終了処理
+//        entityManagerFactory.close();
     }
 }

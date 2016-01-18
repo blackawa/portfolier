@@ -1,15 +1,17 @@
 package jp.blackawa.handler;
 
-import com.iciql.Db;
 import jp.blackawa.model.User;
 import jp.blackawa.services.UsersService;
 import spark.Request;
 import spark.Response;
 
+import javax.persistence.EntityManagerFactory;
+import java.util.UUID;
+
 public class PostRegisterHandler extends AbstractHandler {
 
-    public PostRegisterHandler(Db iciqlDb) {
-        super(iciqlDb);
+    public PostRegisterHandler(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
     }
 
     /**
@@ -22,13 +24,14 @@ public class PostRegisterHandler extends AbstractHandler {
     @Override
     public Object handle(Request request, Response response) throws Exception {
         User userForRegister = new User(
+                UUID.randomUUID(),
                 request.queryParams("name"),
                 request.queryParams("email"),
                 request.queryParams("password")
         );
 
         if (userForRegister.isValid()) {
-            UsersService.insert(userForRegister);
+            UsersService.insert(entityManagerFactory, userForRegister);
             response.status(200);
             response.redirect("/");
             return "";
