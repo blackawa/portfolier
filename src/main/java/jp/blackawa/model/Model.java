@@ -15,4 +15,10 @@ public interface Model {
     User deleteUser(UUID id);
 
     // Stems
+    UUID createStem(Stem user);
+    Stem readStem(UUID id);
+    List<Stem> readAllStems();
+    void updateStem(Stem user);
+    Stem deleteStem(UUID id);
+
 }
