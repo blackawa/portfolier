@@ -16,12 +16,15 @@ import static spark.Spark.*;
  * Awake Application
  */
 public class App {
+
+    public static EntityManagerFactory em;
+
     public static void main(String[] args) {
         // Define asset directory
         externalStaticFileLocation("assets");
 
         // Hibernateが使うDBアクセスのインターフェース
-        EntityManagerFactory em = Persistence.createEntityManagerFactory("jp.blackawa.portfolier");
+        em = Persistence.createEntityManagerFactory("jp.blackawa.portfolier");
 
         // Define routing: /
         get("/", (req, res) -> {
@@ -29,10 +32,10 @@ public class App {
         }, new ThymeleafTemplateEngine());
 
         // Define routing: /register
-        post("/register", new PostRegisterHandler(em));
+        post("/register", new PostRegisterHandler());
 
         // Define routing: /login
-        LoginApi.routes(em);
+        LoginApi.routes();
 
         // Define routing: /user
         UserApi.routes(em);

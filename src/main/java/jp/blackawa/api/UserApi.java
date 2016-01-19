@@ -1,7 +1,8 @@
 package jp.blackawa.api;
 
 import jp.blackawa.model.User;
-import jp.blackawa.services.UsersService;
+import jp.blackawa.services.Service;
+import jp.blackawa.services.UserService;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
 
@@ -15,6 +16,9 @@ import static spark.Spark.*;
  */
 public class UserApi {
     public static void routes(EntityManagerFactory em) {
+
+        Service userService = new UserService();
+
         before("/user/*", (req, res) -> {
             if (null == req.session().attribute("userId")) {
                 halt(403, "you need authentication first.");
@@ -23,13 +27,13 @@ public class UserApi {
 
         get("/user", (req, res) -> {
             res.type("application/json");
-            return JSON.encode(UsersService.findAll(em));
+            return JSON.encode(userService.findAll());
         });
 
         get("/user/:id", (req, res) -> {
             UUID id = UUID.fromString(req.params(":id"));
             res.type("application/json");
-            return JSON.encode(UsersService.findById(em, id));
+            return JSON.encode(userService.findById(id));
         });
 
         post("/user", (req, res) -> {
@@ -37,7 +41,7 @@ public class UserApi {
             UUID createdUserId;
             try {
                 user = JSON.decode(req.body(), User.class);
-                createdUserId = UsersService.insert(em, user);
+                createdUserId = userService.insert(user);
             } catch (JSONException e) {
                 res.status(400);
                 return "illegal format";

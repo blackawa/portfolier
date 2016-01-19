@@ -1,18 +1,14 @@
 package jp.blackawa.handler;
 
 import jp.blackawa.model.User;
-import jp.blackawa.services.UsersService;
+import jp.blackawa.services.Service;
+import jp.blackawa.services.UserService;
 import spark.Request;
 import spark.Response;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.UUID;
 
 public class PostRegisterHandler extends AbstractHandler {
-
-    public PostRegisterHandler(EntityManagerFactory entityManagerFactory) {
-        super(entityManagerFactory);
-    }
 
     /**
      * Sparkが提供するRouteインターフェースの実装
@@ -23,15 +19,16 @@ public class PostRegisterHandler extends AbstractHandler {
      */
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        User userForRegister = new User(
+        User user = new User(
                 UUID.randomUUID(),
                 request.queryParams("name"),
                 request.queryParams("email"),
                 request.queryParams("password")
         );
 
-        if (userForRegister.isValid()) {
-            UsersService.insert(entityManagerFactory, userForRegister);
+        Service userService = new UserService();
+        if (user.isValid()) {
+            userService.insert(user);
             response.status(200);
             response.redirect("/");
             return "";
