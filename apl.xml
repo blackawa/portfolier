@@ -7,19 +7,19 @@
     <includeBaseDirectory>false</includeBaseDirectory>
     <dependencySets>
         <dependencySet>
-            <outputDirectory>/lib</outputDirectory>
+            <outputDirectory>lib</outputDirectory>
         </dependencySet>
     </dependencySets>
     <fileSets>
         <fileSet>
             <directory>assets</directory>
-            <outputDirectory>/assets</outputDirectory>
+            <outputDirectory>assets</outputDirectory>
         </fileSet>
     </fileSets>
     <files>
         <file>
             <source>target/portfolier.jar</source>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory />
         </file>
     </files>
 </assembly>
