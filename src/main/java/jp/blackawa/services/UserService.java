@@ -4,7 +4,6 @@ import jp.blackawa.App;
 import jp.blackawa.model.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.UUID;
 

@@ -9,7 +9,8 @@ import net.arnx.jsonic.JSONException;
 import javax.persistence.EntityManagerFactory;
 import java.util.UUID;
 
-import static spark.Spark.*;
+import static spark.Spark.get;
+import static spark.Spark.post;
 
 /**
  * Provide JSON API interface
@@ -18,12 +19,6 @@ public class UserApi {
     public static void routes(EntityManagerFactory em) {
 
         Service userService = new UserService();
-
-        before("/user/*", (req, res) -> {
-            if (null == req.session().attribute("userId")) {
-                halt(403, "you need authentication first.");
-            }
-        });
 
         get("/user", (req, res) -> {
             res.type("application/json");

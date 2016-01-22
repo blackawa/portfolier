@@ -1,7 +1,8 @@
 package jp.blackawa;
 
-import jp.blackawa.api.LoginApi;
 import jp.blackawa.api.UserApi;
+import jp.blackawa.handler.AuthenticationHandler;
+import jp.blackawa.handler.PostLoginHandler;
 import jp.blackawa.handler.PostRegisterHandler;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -26,21 +27,20 @@ public class App {
         // Hibernateが使うDBアクセスのインターフェース
         em = Persistence.createEntityManagerFactory("jp.blackawa.portfolier");
 
-        // Define routing: /
         get("/", (req, res) -> {
+            // トップ画面を返却する
             return new ModelAndView(new HashMap<>(), "index");
         }, new ThymeleafTemplateEngine());
 
-        // Define routing: /register
         post("/register", new PostRegisterHandler());
 
-        // Define routing: /login
-        LoginApi.routes();
+        get("/login", (req, res) -> {
+            // ログイン画面を返却する
+            return new ModelAndView(new HashMap<>(), "login");
+        }, new ThymeleafTemplateEngine());
+        post("/login", new PostLoginHandler());
 
-        // Define routing: /user
+        before("/user/*", new AuthenticationHandler());
         UserApi.routes(em);
-
-        // 終了処理
-//        entityManagerFactory.close();
     }
 }
