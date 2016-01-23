@@ -5,14 +5,12 @@ import jp.blackawa.services.Service;
 import jp.blackawa.services.StemService;
 import net.arnx.jsonic.JSON;
 
-import javax.persistence.EntityManagerFactory;
-
 import java.util.UUID;
 
 import static spark.Spark.*;
 
 public class StemApi {
-    public static void routes(EntityManagerFactory em) {
+    public static void routes() {
         Service service = new StemService();
 
         get("/stem", (req, res) -> JSON.encode(service.findAll()));

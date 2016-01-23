@@ -1,4 +1,4 @@
-package jp.blackawa.handler;
+package jp.blackawa.handler.before;
 
 import spark.Filter;
 import spark.Request;

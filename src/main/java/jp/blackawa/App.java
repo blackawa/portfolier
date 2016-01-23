@@ -2,9 +2,9 @@ package jp.blackawa;
 
 import jp.blackawa.api.StemApi;
 import jp.blackawa.api.UserApi;
-import jp.blackawa.handler.AuthenticationHandler;
 import jp.blackawa.handler.PostLoginHandler;
 import jp.blackawa.handler.PostRegisterHandler;
+import jp.blackawa.handler.before.ParseRequestParameterHandler;
 import spark.ModelAndView;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
@@ -19,14 +19,14 @@ import static spark.Spark.*;
  */
 public class App {
 
-    public static EntityManagerFactory em;
+    public static EntityManagerFactory emf;
 
     public static void main(String[] args) {
         // Define asset directory
         externalStaticFileLocation("assets");
 
         // Hibernateが使うDBアクセスのインターフェース
-        em = Persistence.createEntityManagerFactory("jp.blackawa.portfolier");
+        emf = Persistence.createEntityManagerFactory("jp.blackawa.portfolier");
 
         get("/", (req, res) -> {
             // トップ画面を返却する
@@ -41,10 +41,14 @@ public class App {
         }, new ThymeleafTemplateEngine());
         post("/login", new PostLoginHandler());
 
-        before("/user/*", new AuthenticationHandler());
-        UserApi.routes(em);
+        // TODO いちいちログインするの面倒だから一回Authを切る
+        // before("/user/*", new AuthenticationHandler());
+        before("/user/*", new ParseRequestParameterHandler());
+        UserApi.routes();
 
-        before("/stem/*", new AuthenticationHandler());
-        StemApi.routes(em);
+        // TODO いちいちログインするの面倒だから一回Authを切る
+        // before("/stem/*", new AuthenticationHandler());
+        before("/stem/*", new ParseRequestParameterHandler());
+        StemApi.routes();
     }
 }

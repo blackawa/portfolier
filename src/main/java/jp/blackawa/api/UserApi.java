@@ -6,7 +6,6 @@ import jp.blackawa.services.UserService;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.UUID;
 
 import static spark.Spark.get;
@@ -16,7 +15,7 @@ import static spark.Spark.post;
  * Provide JSON API interface
  */
 public class UserApi {
-    public static void routes(EntityManagerFactory em) {
+    public static void routes() {
 
         Service userService = new UserService();
 

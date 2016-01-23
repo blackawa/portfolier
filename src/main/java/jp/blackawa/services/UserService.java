@@ -15,7 +15,7 @@ public class UserService implements Service<User> {
     @Override
     public UUID insert(User user) {
         user.setId(UUID.randomUUID());
-        EntityManager entityManager = App.em.createEntityManager();
+        EntityManager entityManager = App.emf.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
@@ -25,19 +25,19 @@ public class UserService implements Service<User> {
 
     @Override
     public User findById(UUID id) {
-        EntityManager entityManager = App.em.createEntityManager();
+        EntityManager entityManager = App.emf.createEntityManager();
         return entityManager.createQuery("from User where id = ?", User.class).setParameter(1, id).getSingleResult();
     }
 
     @Override
     public User findBy(String column, Object value) {
-        EntityManager entityManager = App.em.createEntityManager();
+        EntityManager entityManager = App.emf.createEntityManager();
         return entityManager.createQuery("from User where " + column + " = ?", User.class).setParameter(1, value).getSingleResult();
     }
 
     @Override
     public List<User> findAll() {
-        EntityManager entityManager = App.em.createEntityManager();
+        EntityManager entityManager = App.emf.createEntityManager();
         return entityManager.createQuery("from User", User.class).getResultList();
     }
 
