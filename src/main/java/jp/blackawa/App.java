@@ -1,5 +1,6 @@
 package jp.blackawa;
 
+import jp.blackawa.api.StemApi;
 import jp.blackawa.api.UserApi;
 import jp.blackawa.handler.AuthenticationHandler;
 import jp.blackawa.handler.PostLoginHandler;
@@ -42,5 +43,8 @@ public class App {
 
         before("/user/*", new AuthenticationHandler());
         UserApi.routes(em);
+
+        before("/stem/*", new AuthenticationHandler());
+        StemApi.routes(em);
     }
 }
