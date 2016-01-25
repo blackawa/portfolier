@@ -42,13 +42,8 @@ public class StemService implements Service<Stem> {
     @Override
     public UUID update(Stem stem) {
         EntityManager em = App.emf.createEntityManager();
-        Stem found = findById(stem.getId());
-        // ゴミコードくさいけどいったん動くかやってみる
-        found.setName(stem.getName());
-        found.setUpdateUserId(stem.getUpdateUserId());
-        found.setUpdatedTime(new Date());
         em.getTransaction().begin();
-        em.persist(stem);
+        em.merge(stem);
         em.getTransaction().commit();
         em.close();
         return stem.getId();
