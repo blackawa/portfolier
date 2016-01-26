@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ public class Stem {
     @Id
     private UUID id;
 
+    @Size(max = 80)
     private String name;
     @Column(name = "CREATE_USER_ID")
     private UUID createUserId;
