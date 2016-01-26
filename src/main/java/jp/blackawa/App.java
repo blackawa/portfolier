@@ -45,10 +45,12 @@ public class App {
         // before("/user/*", new AuthenticationHandler());
         before("/user/*", new ParseRequestParameterHandler());
         UserApi.routes();
+        after("/user/*", (req, res) -> res.type("application/json"));
 
         // TODO いちいちログインするの面倒だから一回Authを切る
         // before("/stem/*", new AuthenticationHandler());
         before("/stem/*", new ParseRequestParameterHandler());
         StemApi.routes();
+        after("/stem/*", (req, res) -> res.type("application/json"));
     }
 }

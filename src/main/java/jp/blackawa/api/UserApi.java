@@ -17,16 +17,14 @@ import static spark.Spark.post;
 public class UserApi {
     public static void routes() {
 
-        Service userService = new UserService();
+        Service<User> userService = new UserService();
 
         get("/user", (req, res) -> {
-            res.type("application/json");
             return JSON.encode(userService.findAll());
         });
 
         get("/user/:id", (req, res) -> {
             UUID id = UUID.fromString(req.params(":id"));
-            res.type("application/json");
             return JSON.encode(userService.findById(id));
         });
 

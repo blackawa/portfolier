@@ -11,7 +11,7 @@ import static spark.Spark.*;
 
 public class StemApi {
     public static void routes() {
-        Service service = new StemService();
+        Service<Stem> service = new StemService();
 
         get("/stem", (req, res) -> JSON.encode(service.findAll()));
         get("/stem/:uuid", (req, res) -> JSON.encode(service.findById(UUID.fromString(req.params(":uuid")))));

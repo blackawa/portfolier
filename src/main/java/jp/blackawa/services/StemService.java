@@ -4,6 +4,7 @@ import jp.blackawa.App;
 import jp.blackawa.model.Stem;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +43,11 @@ public class StemService implements Service<Stem> {
     @Override
     public UUID update(Stem stem) {
         EntityManager em = App.emf.createEntityManager();
+        try {
+            findById(stem.getId());
+        } catch (NoResultException e) {
+            return null;
+        }
         em.getTransaction().begin();
         em.merge(stem);
         em.getTransaction().commit();
