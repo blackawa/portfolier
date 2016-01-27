@@ -2,10 +2,13 @@ package jp.blackawa.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Entity
@@ -22,10 +25,15 @@ public class User {
     }
 
     @Id
+    @NotNull
     private UUID id;
-
+    @Size(max = 80)
+    @NotNull
     private String name;
+    @Email
+    @NotNull
     private String email;
+    @NotNull
     private String password;
 
     public boolean isValid() {
