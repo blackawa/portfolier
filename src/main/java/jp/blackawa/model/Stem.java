@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -31,4 +33,6 @@ public class Stem {
     private UUID updateUserId;
     @Column(name = "UPDATE_TIME")
     private Date updatedTime;
+    @OneToMany(mappedBy = "stem")
+    private Set<Branch> branches = new HashSet<>();
 }

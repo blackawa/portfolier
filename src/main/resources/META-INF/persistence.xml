@@ -10,6 +10,7 @@
 
         <class>jp.blackawa.model.User</class>
         <class>jp.blackawa.model.Stem</class>
+        <class>jp.blackawa.model.Branch</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
