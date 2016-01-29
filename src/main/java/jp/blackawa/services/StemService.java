@@ -14,7 +14,6 @@ public class StemService implements Service<Stem> {
     public UUID insert(Stem stem) {
         EntityManager em = App.emf.createEntityManager();
         stem.setId(UUID.randomUUID());
-        stem.setCreatedTime(new Date());
         em.getTransaction().begin();
         em.persist(stem);
         em.getTransaction().commit();
