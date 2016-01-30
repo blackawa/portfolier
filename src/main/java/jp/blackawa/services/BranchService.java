@@ -1,66 +1,66 @@
 package jp.blackawa.services;
 
 import jp.blackawa.App;
-import jp.blackawa.model.Stem;
+import jp.blackawa.model.Branch;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.UUID;
 
-public class StemService implements Service<Stem> {
+public class BranchService implements Service<Branch>{
     @Override
-    public UUID insert(Stem stem) {
+    public UUID insert(Branch branch) {
         EntityManager em = App.emf.createEntityManager();
-        stem.setId(UUID.randomUUID());
         em.getTransaction().begin();
-        em.persist(stem);
+        branch.setId(UUID.randomUUID());
+        em.persist(branch);
         em.getTransaction().commit();
         em.close();
-        return stem.getId();
+        return branch.getId();
     }
 
     @Override
-    public List<Stem> findAll() {
+    public List<Branch> findAll() {
         EntityManager em = App.emf.createEntityManager();
-        return em.createQuery("from Stem", Stem.class).getResultList();
+        return em.createQuery("from Branch", Branch.class).getResultList();
     }
 
     @Override
-    public Stem findById(UUID id) {
+    public Branch findById(UUID id) {
         EntityManager em = App.emf.createEntityManager();
-        return em.createQuery("from Stem where id = ?", Stem.class).setParameter(1, id).getSingleResult();
+        return em.createQuery("from Branch where id = ?", Branch.class).setParameter(1, id).getSingleResult();
     }
 
     @Override
-    public Stem findBy(String column, Object value) {
+    public Branch findBy(String column, Object value) {
         EntityManager em = App.emf.createEntityManager();
-        return em.createQuery("from Stem where " + column + " = ?", Stem.class).setParameter(1, value).getSingleResult();
+        return em.createQuery("from Stem where " + column + " = ?", Branch.class).setParameter(1, value).getSingleResult();
     }
 
     @Override
-    public UUID update(Stem stem) {
+    public UUID update(Branch branch) {
         EntityManager em = App.emf.createEntityManager();
         try {
-            findById(stem.getId());
+            findById(branch.getId());
         } catch (NoResultException e) {
             return null;
         }
         em.getTransaction().begin();
-        em.merge(stem);
+        em.merge(branch);
         em.getTransaction().commit();
         em.close();
-        return stem.getId();
+        return branch.getId();
     }
 
     @Override
-    public Stem delete(UUID id) {
+    public Branch delete(UUID id) {
         EntityManager em = App.emf.createEntityManager();
-        Stem stem = findById(id);
+        Branch branch = findById(id);
         em.getTransaction().begin();
-        em.remove(stem);
+        em.remove(branch);
         em.getTransaction().commit();
         em.close();
-        return stem;
+        return branch;
     }
 }
