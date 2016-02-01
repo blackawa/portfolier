@@ -1,5 +1,6 @@
 package jp.blackawa;
 
+import jp.blackawa.api.BranchApi;
 import jp.blackawa.api.StemApi;
 import jp.blackawa.api.UserApi;
 import jp.blackawa.handler.PostLoginHandler;
@@ -52,5 +53,11 @@ public class App {
         before("/stem/*", new ParseRequestParameterHandler());
         StemApi.routes();
         after("/stem/*", (req, res) -> res.type("application/json"));
+
+        // TODO いちいちログインするの面倒だから一回Authを切る
+        // before("/branch/*", new AuthenticationHandler());
+        before("/branch/*", new ParseRequestParameterHandler());
+        BranchApi.routes();
+        after("/branch/*", (req, res) -> res.type("application/json"));
     }
 }

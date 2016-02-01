@@ -4,7 +4,9 @@ import jp.blackawa.App;
 import jp.blackawa.model.User;
 
 import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -13,14 +15,16 @@ import java.util.UUID;
 public class UserService implements Service<User> {
 
     @Override
-    public UUID insert(User user) {
+    public Map<String, UUID> insert(User user) {
         user.setId(UUID.randomUUID());
         EntityManager entityManager = App.emf.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
         entityManager.close();
-        return user.getId();
+        return new HashMap<String, UUID>() {{
+            put("id", user.getId());
+        }};
     }
 
     @Override
@@ -42,7 +46,7 @@ public class UserService implements Service<User> {
     }
 
     @Override
-    public UUID update(User user) {
+    public Map<String, UUID> update(User user) {
         // スタブメソッド
         System.out.println("This method is not implemented yet.");
         return null;

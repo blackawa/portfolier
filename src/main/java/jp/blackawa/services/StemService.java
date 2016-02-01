@@ -5,19 +5,23 @@ import jp.blackawa.model.Stem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class StemService implements Service<Stem> {
     @Override
-    public UUID insert(Stem stem) {
+    public Map<String, UUID> insert(Stem stem) {
         EntityManager em = App.emf.createEntityManager();
         stem.setId(UUID.randomUUID());
         em.getTransaction().begin();
         em.persist(stem);
         em.getTransaction().commit();
         em.close();
-        return stem.getId();
+        return new HashMap<String, UUID>() {{
+            put("id", stem.getId());
+        }};
     }
 
     @Override
@@ -39,7 +43,7 @@ public class StemService implements Service<Stem> {
     }
 
     @Override
-    public UUID update(Stem stem) {
+    public Map<String, UUID> update(Stem stem) {
         EntityManager em = App.emf.createEntityManager();
         try {
             findById(stem.getId());
@@ -50,7 +54,9 @@ public class StemService implements Service<Stem> {
         em.merge(stem);
         em.getTransaction().commit();
         em.close();
-        return stem.getId();
+        return new HashMap<String, UUID>() {{
+            put("id", stem.getId());
+        }};
     }
 
     @Override
