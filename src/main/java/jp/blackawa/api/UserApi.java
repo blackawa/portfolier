@@ -19,9 +19,7 @@ public class UserApi {
 
         Service<User> userService = new UserService();
 
-        get("/user", (req, res) -> {
-            return JSON.encode(userService.findAll());
-        });
+        get("/user", (req, res) -> JSON.encode(userService.findAll()));
 
         get("/user/:id", (req, res) -> {
             UUID id = UUID.fromString(req.params(":id"));
