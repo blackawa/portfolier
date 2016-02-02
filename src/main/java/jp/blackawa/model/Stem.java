@@ -19,7 +19,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Stem {
+public class Stem extends AbstractModel {
     @Id
     @NotNull
     private UUID id;

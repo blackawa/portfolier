@@ -15,7 +15,7 @@ import java.util.UUID;
 @Table(name = "USER")
 @Data
 @NoArgsConstructor
-public class User {
+public class User extends AbstractModel {
 
     public User (UUID id, String name, String email, String password) {
         this.id = id;

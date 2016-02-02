@@ -10,7 +10,7 @@ import java.util.UUID;
 @Table(name = "BRANCH")
 @Data
 @NoArgsConstructor
-public class Branch {
+public class Branch extends AbstractModel {
 
     @Id
     private UUID id;
