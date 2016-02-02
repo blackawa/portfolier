@@ -5,19 +5,22 @@ import jp.blackawa.model.Branch;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 public class BranchService implements Service<Branch>{
     @Override
-    public UUID insert(Branch branch) {
+    public HashMap<String, UUID> insert(Branch branch) {
         EntityManager em = App.emf.createEntityManager();
         em.getTransaction().begin();
         branch.setId(UUID.randomUUID());
         em.persist(branch);
         em.getTransaction().commit();
         em.close();
-        return branch.getId();
+        return new HashMap<String, UUID>(){{
+            put("id", branch.getId());
+        }};
     }
 
     @Override
@@ -39,7 +42,7 @@ public class BranchService implements Service<Branch>{
     }
 
     @Override
-    public UUID update(Branch branch) {
+    public HashMap<String, UUID> update(Branch branch) {
         EntityManager em = App.emf.createEntityManager();
         try {
             findById(branch.getId());
@@ -50,7 +53,9 @@ public class BranchService implements Service<Branch>{
         em.merge(branch);
         em.getTransaction().commit();
         em.close();
-        return branch.getId();
+        return new HashMap<String, UUID>() {{
+            put("id", branch.getId());
+        }};
     }
 
     @Override

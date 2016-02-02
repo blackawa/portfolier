@@ -6,6 +6,7 @@ import jp.blackawa.services.UserService;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
 
+import java.util.Map;
 import java.util.UUID;
 
 import static spark.Spark.get;
@@ -29,15 +30,16 @@ public class UserApi {
         post("/user", (req, res) -> {
             User user = new User();
             UUID createdUserId;
+            Map<String, UUID> result;
             try {
                 user = JSON.decode(req.body(), User.class);
-                createdUserId = userService.insert(user);
+                result = userService.insert(user);
             } catch (JSONException e) {
                 res.status(400);
                 return "illegal format";
             }
             res.status(201);
-            return createdUserId.toString();
+            return JSON.encode(result);
         });
     }
 }
