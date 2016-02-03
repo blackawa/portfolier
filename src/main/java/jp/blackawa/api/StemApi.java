@@ -1,22 +1,84 @@
 package jp.blackawa.api;
 
+import jp.blackawa.components.GeneralDao;
+import jp.blackawa.form.DeleteForm;
 import jp.blackawa.model.Stem;
-import jp.blackawa.services.Service;
-import jp.blackawa.services.StemService;
 import net.arnx.jsonic.JSON;
+import net.arnx.jsonic.JSONException;
+import spark.Route;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static spark.Spark.*;
 
 public class StemApi {
     public static void routes() {
-        Service<Stem> service = new StemService();
 
-        get("/stem", (req, res) -> JSON.encode(service.findAll()));
-        get("/stem/:uuid", (req, res) -> JSON.encode(service.findById(UUID.fromString(req.params(":uuid")))));
-        post("/stem", (req, res) -> JSON.encode(service.insert(JSON.decode(req.body(), Stem.class))));
-        put("/stem", (req, res) -> JSON.encode(service.update(JSON.decode(req.body(), Stem.class))));
-        delete("/stem", (req, res) -> JSON.encode(service.delete(JSON.decode(req.body(), Stem.class).getId())));
+        get("/stem", getStem());
+        get("/stem/:uuid", getStemUuid());
+
+        post("/stem", (req, res) -> {
+            Stem stem;
+            try {
+                stem = JSON.decode(req.body(), Stem.class);
+            } catch (JSONException e) {
+                // Failed to Parse JSON
+                return null;
+            }
+            Map<String, UUID> result = new HashMap<>();
+            UUID id = GeneralDao.insert(stem);
+            result.put("id", id);
+            return JSON.encode(result);
+        });
+
+        put("/stem", (req, res) -> {
+            Stem stem;
+            try {
+                stem = JSON.decode(req.body(), Stem.class);
+            } catch (JSONException e) {
+                // Failed to Parse JSON
+                return null;
+            }
+            Map<String, UUID> result = new HashMap<>();
+            UUID id = GeneralDao.update(stem);
+            result.put("id", id);
+            return JSON.encode(result);
+        });
+
+        delete("/stem", (req, res) -> {
+            DeleteForm form;
+            try {
+                form = JSON.decode(req.body());
+            } catch (JSONException e) {
+                // Failed to Parse JSON
+                return null;
+            }
+            return JSON.encode(GeneralDao.delete(Stem.class, form));
+        });
+    }
+
+    public static Route getStem() {
+        return (req, res) -> {
+            List<Stem> result = GeneralDao.findAll(Stem.class);
+            return JSON.encode(result);
+        };
+    }
+
+    public static Route getStemUuid() {
+        return (req, res) -> {
+            String param = req.params(":uuid");
+            UUID uuid;
+            try {
+                uuid = UUID.fromString(param);
+            } catch (IllegalArgumentException e) {
+                // Catch Illegal Uri
+                return null;
+            }
+            Stem result = GeneralDao.findById(Stem.class, uuid);
+            return JSON.encode(result);
+        };
     }
 }

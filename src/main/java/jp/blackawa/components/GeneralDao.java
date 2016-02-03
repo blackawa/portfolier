@@ -1,6 +1,7 @@
 package jp.blackawa.components;
 
 import jp.blackawa.App;
+import jp.blackawa.form.DeleteForm;
 import jp.blackawa.model.AbstractModel;
 
 import javax.persistence.EntityManager;
@@ -53,11 +54,11 @@ public class GeneralDao {
         return entity.getId();
     }
 
-    public static <T extends AbstractModel> T delete(Class<T> entityClass, UUID id) {
+    public static <T extends AbstractModel> T delete(Class<T> entityClass, DeleteForm form) {
         EntityManager em = App.emf.createEntityManager();
         T entity;
         try {
-            entity = findById(entityClass, id);
+            entity = findById(entityClass, form.getId());
         } catch (NoResultException e) {
             return null;
         }
