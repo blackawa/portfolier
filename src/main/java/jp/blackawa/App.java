@@ -15,9 +15,6 @@ import java.util.HashMap;
 
 import static spark.Spark.*;
 
-/**
- * Awake Application
- */
 public class App {
 
     public static EntityManagerFactory emf;
