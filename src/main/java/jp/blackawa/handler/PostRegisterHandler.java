@@ -26,7 +26,7 @@ public class PostRegisterHandler extends AbstractHandler {
                 request.queryParams("password")
         );
 
-        Service userService = new UserService();
+        Service<User> userService = new UserService();
         if (user.isValid()) {
             userService.insert(user);
             response.status(200);
