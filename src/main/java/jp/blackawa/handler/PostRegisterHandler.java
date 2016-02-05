@@ -6,9 +6,14 @@ import jp.blackawa.services.UserService;
 import spark.Request;
 import spark.Response;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.UUID;
 
 public class PostRegisterHandler extends AbstractHandler {
+
+    public PostRegisterHandler (EntityManagerFactory emf) {
+        super(emf);
+    }
 
     /**
      * Sparkが提供するRouteインターフェースの実装
@@ -26,7 +31,7 @@ public class PostRegisterHandler extends AbstractHandler {
                 request.queryParams("password")
         );
 
-        Service<User> userService = new UserService();
+        Service<User> userService = new UserService(emf);
         if (user.isValid()) {
             userService.insert(user);
             response.status(200);

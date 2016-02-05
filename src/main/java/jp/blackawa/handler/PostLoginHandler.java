@@ -6,10 +6,16 @@ import jp.blackawa.services.UserService;
 import spark.Request;
 import spark.Response;
 
+import javax.persistence.EntityManagerFactory;
+
 public class PostLoginHandler extends AbstractHandler {
+    public PostLoginHandler(EntityManagerFactory emf) {
+        super(emf);
+    }
+
     @Override
     public Object handle(Request req, Response res) throws Exception {
-        Service userService = new UserService();
+        Service userService = new UserService(emf);
         String email = req.queryParams("email");
         String password = req.queryParams("password");
         User user = (User) userService.findBy("email", email);
