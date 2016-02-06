@@ -2,6 +2,7 @@ package jp.blackawa.handler.stem;
 
 import jp.blackawa.components.GeneralDao;
 import jp.blackawa.handler.AbstractHandler;
+import jp.blackawa.handler.HandlerResponse;
 import jp.blackawa.model.Stem;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
@@ -16,6 +17,12 @@ import java.util.UUID;
 public class UpdateStemHandler extends AbstractHandler {
     public UpdateStemHandler(EntityManagerFactory emf) {
         super(emf);
+    }
+
+    @Override
+    protected HandlerResponse process(Map<String, String> params, String body) {
+        // FIXME Mock
+        return null;
     }
 
     @Override

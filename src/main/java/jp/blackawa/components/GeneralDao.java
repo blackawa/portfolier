@@ -22,7 +22,7 @@ public class GeneralDao {
     }
 
     public <T extends AbstractModel> UUID insert(T entity) {
-         EntityManager em = emf.createEntityManager();
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(entity);
         em.getTransaction().commit();

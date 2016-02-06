@@ -7,12 +7,18 @@ import spark.Request;
 import spark.Response;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.Map;
 import java.util.UUID;
 
 public class PostRegisterHandler extends AbstractHandler {
 
     public PostRegisterHandler (EntityManagerFactory emf) {
         super(emf);
+    }
+
+    @Override
+    protected HandlerResponse process(Map<String, String> params, String body) {
+        return null;
     }
 
     /**

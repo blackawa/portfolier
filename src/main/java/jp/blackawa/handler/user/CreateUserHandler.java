@@ -1,6 +1,7 @@
 package jp.blackawa.handler.user;
 
 import jp.blackawa.handler.AbstractHandler;
+import jp.blackawa.handler.HandlerResponse;
 import jp.blackawa.model.User;
 import jp.blackawa.services.UserService;
 import net.arnx.jsonic.JSON;
@@ -15,6 +16,12 @@ import java.util.UUID;
 public class CreateUserHandler extends AbstractHandler {
     public CreateUserHandler(EntityManagerFactory emf) {
         super(emf);
+    }
+
+    @Override
+    protected HandlerResponse process(Map<String, String> params, String body) {
+        // FIXME Mock
+        return null;
     }
 
     @Override

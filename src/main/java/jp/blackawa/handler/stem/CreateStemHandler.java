@@ -1,12 +1,10 @@
 package jp.blackawa.handler.stem;
 
-import jp.blackawa.components.GeneralDao;
+import jp.blackawa.form.stem.CreateStemForm;
 import jp.blackawa.handler.AbstractHandler;
+import jp.blackawa.handler.HandlerResponse;
 import jp.blackawa.model.Stem;
 import net.arnx.jsonic.JSON;
-import net.arnx.jsonic.JSONException;
-import spark.Request;
-import spark.Response;
 
 import javax.persistence.EntityManagerFactory;
 import java.util.HashMap;
@@ -19,17 +17,13 @@ public class CreateStemHandler extends AbstractHandler {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws Exception {
-        Stem stem;
-        try {
-            stem = JSON.decode(request.body(), Stem.class);
-        } catch (JSONException e) {
-            // Failed to Parse JSON
-            return null;
-        }
+    protected HandlerResponse process(Map<String, String> params, String body) {
+        CreateStemForm form = JSON.decode(body, CreateStemForm.class);
+
+        UUID id = UUID.randomUUID();
+        new Stem(id, form.getName(), null);
         Map<String, UUID> result = new HashMap<>();
-        UUID id = new GeneralDao(emf).insert(stem);
         result.put("id", id);
-        return JSON.encode(result);
+        return new HandlerResponse(200, true, result);
     }
 }

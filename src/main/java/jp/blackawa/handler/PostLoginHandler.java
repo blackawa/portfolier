@@ -7,10 +7,16 @@ import spark.Request;
 import spark.Response;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.Map;
 
 public class PostLoginHandler extends AbstractHandler {
     public PostLoginHandler(EntityManagerFactory emf) {
         super(emf);
+    }
+
+    @Override
+    protected HandlerResponse process(Map<String, String> params, String body) {
+        return null;
     }
 
     @Override
