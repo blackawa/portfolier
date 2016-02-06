@@ -1,6 +1,7 @@
 package jp.blackawa.handler.stem;
 
 import jp.blackawa.form.stem.CreateStemForm;
+import jp.blackawa.form.stem.CreateStemResponseForm;
 import jp.blackawa.handler.AbstractHandler;
 import jp.blackawa.handler.HandlerResponse;
 import jp.blackawa.model.Stem;
@@ -22,8 +23,8 @@ public class CreateStemHandler extends AbstractHandler {
 
         UUID id = UUID.randomUUID();
         new Stem(id, form.getName(), null);
-        Map<String, UUID> result = new HashMap<>();
-        result.put("id", id);
-        return new HandlerResponse(200, true, result);
+        CreateStemResponseForm response = new CreateStemResponseForm();
+        response.setId(id);
+        return new HandlerResponse<>(200, true, response);
     }
 }

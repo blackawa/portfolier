@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor()
-public class HandlerResponse {
+public class  HandlerResponse<T> {
     private int statusCode;
     private boolean returnJson;
-    private Object content;
+    private T content;
 }
