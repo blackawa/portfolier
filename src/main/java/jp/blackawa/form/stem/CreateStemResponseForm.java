@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -11,5 +12,5 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CreateStemResponseForm {
     private UUID id;
-    private String[] errors;
+    private List<String> errors;
 }

@@ -1,6 +1,6 @@
 package jp.blackawa.handler.stem;
 
-import jp.blackawa.form.stem.CreateStemForm;
+import jp.blackawa.form.stem.CreateStemRequestForm;
 import jp.blackawa.form.stem.CreateStemResponseForm;
 import jp.blackawa.handler.AbstractHandler;
 import jp.blackawa.handler.HandlerResponse;
@@ -8,9 +8,10 @@ import jp.blackawa.model.Stem;
 import net.arnx.jsonic.JSON;
 
 import javax.persistence.EntityManagerFactory;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.*;
 
 public class CreateStemHandler extends AbstractHandler {
     public CreateStemHandler(EntityManagerFactory emf) {
@@ -19,11 +20,23 @@ public class CreateStemHandler extends AbstractHandler {
 
     @Override
     protected HandlerResponse process(Map<String, String> params, String body) {
-        CreateStemForm form = JSON.decode(body, CreateStemForm.class);
+        CreateStemRequestForm form = JSON.decode(body, CreateStemRequestForm.class);
+        CreateStemResponseForm response = new CreateStemResponseForm();
+
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<CreateStemRequestForm>> constraintViolations = validator.validate(form);
+
+        if (constraintViolations.size() != 0) {
+            List<String> errors = new ArrayList<>();
+            for (ConstraintViolation<CreateStemRequestForm> violation : constraintViolations) {
+                errors.add(violation.getMessage());
+            }
+            response.setErrors(errors);
+            return new HandlerResponse<>(400, true, response);
+        }
 
         UUID id = UUID.randomUUID();
         new Stem(id, form.getName(), null);
-        CreateStemResponseForm response = new CreateStemResponseForm();
         response.setId(id);
         return new HandlerResponse<>(200, true, response);
     }

@@ -21,11 +21,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Stem extends AbstractModel {
     @Id
-    @NotNull
     private UUID id;
 
-    @Size(max = 80)
-    @NotNull
     private String name;
 
     @OneToMany(mappedBy = "stem")

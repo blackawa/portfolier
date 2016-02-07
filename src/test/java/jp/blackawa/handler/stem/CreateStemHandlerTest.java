@@ -1,6 +1,6 @@
 package jp.blackawa.handler.stem;
 
-import jp.blackawa.form.stem.CreateStemForm;
+import jp.blackawa.form.stem.CreateStemRequestForm;
 import jp.blackawa.form.stem.CreateStemResponseForm;
 import jp.blackawa.handler.HandlerResponse;
 import jp.blackawa.testutils.EmfFactory;
@@ -30,7 +30,7 @@ public class CreateStemHandlerTest {
     @Test
     public void createSuccess() {
         Map<String, String> params = new HashMap<>();
-        String body = JSON.encode(new CreateStemForm("BrandNewStem"));
+        String body = JSON.encode(new CreateStemRequestForm("BrandNewStem"));
 
         HandlerResponse<CreateStemResponseForm> actual = handler.process(params, body);
         assertThat("Status Code 200", actual.getStatusCode(), is(200));
@@ -40,11 +40,11 @@ public class CreateStemHandlerTest {
 
     @Test
     public void invalidBody() {
-        String body = JSON.encode(new CreateStemForm(null));
+        String body = JSON.encode(new CreateStemRequestForm(null));
         HandlerResponse<CreateStemResponseForm> actual = handler.process(new HashMap<>(), body);
         assertThat("Status Code 400", actual.getStatusCode(), is(400));
         assertThat("Should Return JSON", actual.isReturnJson(), is(true));
-        assertThat("Error Included", actual.getContent().getErrors().length, not(0));
+        assertThat("Error Included", actual.getContent().getErrors().size(), not(0));
     }
 
     @Test
@@ -55,6 +55,6 @@ public class CreateStemHandlerTest {
         HandlerResponse<CreateStemResponseForm> actual = handler.process(new HashMap<>(), body);
         assertThat("Status Code 400", actual.getStatusCode(), is(400));
         assertThat("Should Return JSON", actual.isReturnJson(), is(true));
-        assertThat("Error Included", actual.getContent().getErrors().length, not(0));
+        assertThat("Error Included", actual.getContent().getErrors().size(), not(0));
     }
 }
