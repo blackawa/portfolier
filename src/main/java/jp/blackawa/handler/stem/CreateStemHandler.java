@@ -11,7 +11,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CreateStemHandler extends AbstractHandler {
     public CreateStemHandler(EntityManagerFactory emf) {
@@ -27,10 +31,9 @@ public class CreateStemHandler extends AbstractHandler {
         Set<ConstraintViolation<CreateStemRequestForm>> constraintViolations = validator.validate(form);
 
         if (constraintViolations.size() != 0) {
-            List<String> errors = new ArrayList<>();
-            for (ConstraintViolation<CreateStemRequestForm> violation : constraintViolations) {
-                errors.add(violation.getMessage());
-            }
+            List<String> errors = constraintViolations.stream()
+                    .map(ConstraintViolation::getMessage)
+                    .collect(Collectors.toList());
             response.setErrors(errors);
             return new HandlerResponse<>(400, true, response);
         }
