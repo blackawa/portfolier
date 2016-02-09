@@ -34,7 +34,6 @@ public class CreateStemHandlerTest {
 
         HandlerResponse<CreateStemResponseForm> actual = handler.process(params, body);
         assertThat("Status Code 200", actual.getStatusCode(), is(200));
-        assertThat("Should Return JSON", actual.isReturnJson(), is(true));
         assertThat("Error Not Included", actual.getContent().getErrors(), nullValue());
     }
 
@@ -43,7 +42,6 @@ public class CreateStemHandlerTest {
         String body = JSON.encode(new CreateStemRequestForm(null));
         HandlerResponse<CreateStemResponseForm> actual = handler.process(new HashMap<>(), body);
         assertThat("Status Code 400", actual.getStatusCode(), is(400));
-        assertThat("Should Return JSON", actual.isReturnJson(), is(true));
         assertThat("Error Included", actual.getContent().getErrors().size(), not(0));
     }
 
@@ -54,7 +52,6 @@ public class CreateStemHandlerTest {
         }});
         HandlerResponse<CreateStemResponseForm> actual = handler.process(new HashMap<>(), body);
         assertThat("Status Code 400", actual.getStatusCode(), is(400));
-        assertThat("Should Return JSON", actual.isReturnJson(), is(true));
         assertThat("Error Included", actual.getContent().getErrors().size(), not(0));
     }
 }

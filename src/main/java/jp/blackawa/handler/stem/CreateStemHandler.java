@@ -35,12 +35,12 @@ public class CreateStemHandler extends AbstractHandler {
                     .map(ConstraintViolation::getMessage)
                     .collect(Collectors.toList());
             response.setErrors(errors);
-            return new HandlerResponse<>(400, true, response);
+            return new HandlerResponse<>(400, response);
         }
 
         UUID id = UUID.randomUUID();
         new Stem(id, form.getName(), null);
         response.setId(id);
-        return new HandlerResponse<>(200, true, response);
+        return new HandlerResponse<>(200, response);
     }
 }

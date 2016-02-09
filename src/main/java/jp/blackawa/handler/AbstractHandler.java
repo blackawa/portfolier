@@ -21,10 +21,6 @@ public abstract class AbstractHandler implements Route {
         HandlerResponse handlerResponse = process(request.params(), request.body());
 
         response.status(handlerResponse.getStatusCode());
-        if (handlerResponse.isReturnJson()) {
-            return JSON.encode(handlerResponse.getContent());
-        } else {
-            return handlerResponse.getContent();
-        }
+        return JSON.encode(handlerResponse.getContent());
     }
 }

@@ -18,6 +18,6 @@ public class GetAllStemHandler extends AbstractHandler {
     @Override
     protected HandlerResponse process(Map<String, String> params, String body) {
         List<Stem> result = new GeneralDao(emf).findAll(Stem.class);
-        return new HandlerResponse(200, true, result);
+        return new HandlerResponse<>(200, result);
     }
 }

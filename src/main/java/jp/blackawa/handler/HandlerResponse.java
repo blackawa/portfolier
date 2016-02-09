@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class  HandlerResponse<T> {
     private int statusCode;
-    private boolean returnJson;
     private T content;
 }
