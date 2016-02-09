@@ -8,7 +8,6 @@
             Construct Your Own Portfolio with Me. | Portfolier
         </description>
 
-        <class>jp.blackawa.model.User</class>
         <class>jp.blackawa.model.Stem</class>
         <class>jp.blackawa.model.Branch</class>
 

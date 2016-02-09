@@ -1,19 +1,11 @@
 package jp.blackawa;
 
-import jp.blackawa.handler.PostLoginHandler;
-import jp.blackawa.handler.PostRegisterHandler;
 import jp.blackawa.handler.before.ParseRequestParameterHandler;
-import jp.blackawa.handler.login.GetLoginHandler;
 import jp.blackawa.handler.stem.*;
-import jp.blackawa.handler.top.GetTopHandler;
-import jp.blackawa.handler.user.CreateUserHandler;
-import jp.blackawa.handler.user.GetAllUserHandler;
-import jp.blackawa.handler.user.GetUserHandler;
 import jp.blackawa.model.Branch;
 import jp.blackawa.services.BranchService;
 import jp.blackawa.services.Service;
 import net.arnx.jsonic.JSON;
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,20 +24,6 @@ public class App {
 
         // Hibernateが使うDBアクセスのインターフェース
         emf = Persistence.createEntityManagerFactory("jp.blackawa.portfolier");
-
-        get("/", new GetTopHandler(), new ThymeleafTemplateEngine());
-
-        post("/register", new PostRegisterHandler(emf));
-        get("/login", new GetLoginHandler(), new ThymeleafTemplateEngine());
-        post("/login", new PostLoginHandler(emf));
-
-        // TODO いちいちログインするの面倒だから一回Authを切る
-        // before("/user/*", new AuthenticationHandler());
-        before("/user/*", new ParseRequestParameterHandler());
-        get("/user", new GetAllUserHandler(emf));
-        get("/user/:id", new GetUserHandler(emf));
-        post("/user", new CreateUserHandler(emf));
-        after("/user/*", (req, res) -> res.type("application/json"));
 
         // TODO いちいちログインするの面倒だから一回Authを切る
         // before("/stem/*", new AuthenticationHandler());
