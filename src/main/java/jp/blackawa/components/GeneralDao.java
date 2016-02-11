@@ -61,15 +61,18 @@ public class GeneralDao {
         return entity.getId();
     }
 
-    public <T extends AbstractModel> T delete(Class<T> entityClass, DeleteForm form) {
+    /**
+     * 指定されたIDを持つエンティティをDBからDELETEする。
+     * @param entityClass 削除対象エンティティのクラス
+     * @param form 削除対象レコードのIDが入ったform
+     * @param <T> AbstractModelクラスを継承したエンティティ
+     * @return 削除されたエンティティ
+     * @throws NoResultException 与えられたテーブルに該当の引数が存在しない場合、この例外を返却する
+     */
+    public <T extends AbstractModel> T delete(Class<T> entityClass, DeleteForm form) throws NoResultException {
         EntityManager em = emf.createEntityManager();
         T entity;
-        try {
-            entity = findById(entityClass, form.getId());
-        } catch (NoResultException e) {
-            // FIXME return some value
-            return null;
-        }
+        entity = findById(entityClass, form.getId());
         em.getTransaction().begin();
         em.remove(em.merge(entity));
         em.getTransaction().commit();

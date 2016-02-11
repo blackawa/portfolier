@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
 public class DeleteStemHandlerTest {
@@ -41,5 +42,15 @@ public class DeleteStemHandlerTest {
         HandlerResponse<DeleteStemResponseForm> actual = handler.process(params, body);
         assertThat("Status Code 200", actual.getStatusCode(), is(204));
         assertThat("No Errors", actual.getContent().getErrors().size(), is(0));
+    }
+
+    @Test
+    public void idNotExists() {
+        Map<String, String> params = new HashMap<>();
+        String body = JSON.encode(new DeleteForm(UUID.randomUUID()));
+
+        HandlerResponse<DeleteStemResponseForm> actual = handler.process(params, body);
+        assertThat("Status Code 400", actual.getStatusCode(), is(400));
+        assertThat("Error Returned", actual.getContent().getErrors(), not(0));
     }
 }

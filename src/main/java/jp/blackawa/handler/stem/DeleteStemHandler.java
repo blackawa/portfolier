@@ -9,6 +9,7 @@ import jp.blackawa.model.Stem;
 import net.arnx.jsonic.JSON;
 
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -20,9 +21,17 @@ public class DeleteStemHandler extends AbstractHandler {
     @Override
     protected HandlerResponse process(Map<String, String> params, String body) {
         DeleteForm form = JSON.decode(body, DeleteForm.class);
-        Stem stem = new GeneralDao(emf).delete(Stem.class, form);
         DeleteStemResponseForm response = new DeleteStemResponseForm();
-        response.setStem(stem);
+        try {
+            Stem stem = new GeneralDao(emf).delete(Stem.class, form);
+            response.setStem(stem);
+        } catch (NoResultException e) {
+            response.setErrors(new ArrayList<String>() {{
+                // TODO メッセージの出処を一本化する
+                add("No Record Exists");
+            }});
+            return new HandlerResponse<>(400, response);
+        }
         return new HandlerResponse<>(204, response);
     }
 }
