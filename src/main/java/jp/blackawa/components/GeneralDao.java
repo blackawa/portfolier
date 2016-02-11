@@ -67,10 +67,11 @@ public class GeneralDao {
         try {
             entity = findById(entityClass, form.getId());
         } catch (NoResultException e) {
+            // FIXME return some value
             return null;
         }
         em.getTransaction().begin();
-        em.remove(entity);
+        em.remove(em.merge(entity));
         em.getTransaction().commit();
         em.close();
         return entity;

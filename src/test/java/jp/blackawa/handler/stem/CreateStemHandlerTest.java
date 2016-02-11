@@ -34,7 +34,7 @@ public class CreateStemHandlerTest {
 
         HandlerResponse<CreateStemResponseForm> actual = handler.process(params, body);
         assertThat("Status Code 200", actual.getStatusCode(), is(200));
-        assertThat("Error Not Included", actual.getContent().getErrors(), nullValue());
+        assertThat("Error Not Included", actual.getContent().getErrors().size(), is(0));
     }
 
     @Test
